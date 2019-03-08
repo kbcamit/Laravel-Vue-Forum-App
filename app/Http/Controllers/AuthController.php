@@ -40,8 +40,24 @@ class AuthController extends Controller
     //signup
     public function signup(Request $request)
     {
+        $this->isValidation($request);
+
         User::create($request->all());
         return $this->login($request);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return ValidatesRequests
+     */
+    public function isValidation(Request $request)
+    {
+        $this->validate($request, [
+            'name' => ['required'],
+            'email' => ['required'],
+            'password' => ['required', 'string', 'confirmed'],
+        ]);
     }
 
     /**
